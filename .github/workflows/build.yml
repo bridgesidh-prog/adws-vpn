@@ -16,13 +16,22 @@ jobs:
         with:
           distribution: temurin
           java-version: '17'
+          java-package: jdk
           cache: gradle
+
+      - name: Force Java 17
+        run: |
+          java -version
+          echo "JAVA_HOME=$JAVA_HOME" >> $GITHUB_ENV
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
+      - name: Clean project
+        run: ./gradlew clean
+
       - name: Build APK
-        run: ./gradlew clean assembleDebug
+        run: ./gradlew assembleDebug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
