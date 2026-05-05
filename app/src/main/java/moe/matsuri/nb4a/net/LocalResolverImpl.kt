@@ -74,7 +74,7 @@ object LocalResolverImpl : LocalDNSTransport {
                         if (rcode == 0) {
                             ctx.success(answer.mapNotNull { it.hostAddress }.joinToString("\n"))
                         } else {
-                            ctx.errorCode(rcode)
+                            ctx.errnoCode(rcode)
                         }
                     } catch (e: Exception) {
                         Logs.w(e)
@@ -139,7 +139,7 @@ object LocalResolverImpl : LocalDNSTransport {
                         ctx.errnoCode(114514)
                     }
                 } catch (e: UnknownHostException) {
-                    ctx.errorCode(RCODE_NXDOMAIN)
+                    ctx.errnoCode(RCODE_NXDOMAIN)
                 } catch (e: Exception) {
                     Logs.w(e)
                     ctx.errnoCode(114514)
