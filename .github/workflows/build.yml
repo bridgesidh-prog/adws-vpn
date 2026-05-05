@@ -11,22 +11,27 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up JDK 17
+      - name: Set up JDK 17 (IMPORTANT FIX)
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: 17
+          cache: gradle
 
-      - name: Verify Java
-        run: java -version
+      - name: Force Java 17 (fix Java 11 issue)
+        run: |
+          echo "JAVA_HOME=$JAVA_HOME_17_X64" >> $GITHUB_ENV
+          echo "org.gradle.java.home=$JAVA_HOME_17_X64" >> gradle.properties
 
-      - name: Setup Gradle Java Home
-        run: echo "org.gradle.java.home=$JAVA_HOME_17_X64" >> gradle.properties
+      - name: Verify Java version
+        run: |
+          java -version
+          echo $JAVA_HOME
 
       - name: Grant execute permission
         run: chmod +x gradlew
 
-      - name: Clean Project
+      - name: Clean project
         run: ./gradlew clean --no-daemon
 
       - name: Build Debug APK
