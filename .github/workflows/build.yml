@@ -18,11 +18,13 @@ jobs:
           distribution: temurin
           java-version: 17
 
-      - name: Verify Java version
-        run: java -version
+      - name: Verify Java
+        run: |
+          java -version
+          echo $JAVA_HOME
 
-      - name: Grant execute permission
+      - name: Grant permission
         run: chmod +x gradlew
 
-      - name: Build with Gradle
-        run: ./gradlew clean build --stacktrace
+      - name: Clean Build
+        run: ./gradlew clean build --stacktrace --no-daemon
